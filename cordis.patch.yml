@@ -11,4 +11,4 @@
         lockTtlMs: 300000   # 地板锁默认有效期（毫秒），防死锁兜底
         denyTools: ['write', 'edit', 'git']  # 持锁期间拒绝 DSH 的写入工具
         alertInjection: true  # 提醒是否插进当前轮（false 则只进收件箱）
-        inboxRoot: ''       # 审查/提醒收件箱；空 = ~/.workbuddy-bridge/inbox（与 workbuddy-bridge 共用）
+        inboxRoot: ''       # 审查/提醒收件箱；空 = ~/.dsh-mcp-bridge/inbox
