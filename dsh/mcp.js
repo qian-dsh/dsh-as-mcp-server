@@ -239,7 +239,7 @@ export async function createMcpBridge(handlers, opts = {}, onReady) {
     // 已有会话 → 复用其 transport（POST/GET/DELETE 统一走这里）
     if (sessionId && sessions.has(sessionId)) {
       sessions.get(sessionId).transport.handleRequest(req, res).catch((error) => {
-        console.error(`[dsh-mcp-bridge] 请求处理失败: ${String(error?.message ?? error)}`)
+        console.error(`[dsh-as-mcp-server] 请求处理失败: ${String(error?.message ?? error)}`)
         if (!res.headersSent) {
           res.writeHead(500, { 'content-type': 'text/plain' })
           res.end('internal error')
@@ -258,7 +258,7 @@ export async function createMcpBridge(handlers, opts = {}, onReady) {
       transport.onclose = () => { sessions.delete(transport.sessionId) }
       await server.connect(transport)
       transport.handleRequest(req, res).catch((error) => {
-        console.error(`[dsh-mcp-bridge] 新会话处理失败: ${String(error?.message ?? error)}`)
+        console.error(`[dsh-as-mcp-server] 新会话处理失败: ${String(error?.message ?? error)}`)
         if (!res.headersSent) {
           res.writeHead(500, { 'content-type': 'text/plain' })
           res.end('internal error')

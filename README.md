@@ -1,5 +1,7 @@
 # dsh-as-mcp-server
 
+English | [中文](README.zh.md)
+
 **Exposes DSH as an MCP server**, so any MCP client can watch what the agent is doing and steer it mid-flight.
 
 Two agents on one workspace normally means two agents overwriting each other. This bridge gives them a shared protocol instead: what the other side is thinking, what it's touching, who owns the floor, and a way to interrupt.
@@ -43,7 +45,7 @@ Then **add the bridge to your MCP client** — any client speaking Streamable HT
 }
 ```
 
-Restart DSH. The log should show `[dsh-mcp-bridge] MCP server 就绪: http://127.0.0.1:51630/mcp`.
+Restart DSH. The log should show `[dsh-as-mcp-server] MCP server 就绪: http://127.0.0.1:51630/mcp`.
 
 ## Self-test without installing
 

@@ -1,4 +1,4 @@
-// dsh-mcp-bridge —— DSH ↔ MCP 实时会诊桥（MCP server 版）
+// dsh-as-mcp-server —— 把 DSH 暴露成 MCP server（让外部客户端接入）
 //
 // 会诊室机制：
 //   思维流    llm/stream 瀑布 → notifications/dsh/thinking   （他实时看到你在想什么）
@@ -94,7 +94,7 @@ export function apply(ctx, config = {}) {
         standards: ['阅读此提醒并酌情处理'],
       }, null, 2)}\n`)
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] 提醒落盘失败: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] 提醒落盘失败: ${String(error?.message ?? error)}`)
     }
   }
 
@@ -132,7 +132,7 @@ export function apply(ctx, config = {}) {
         })
       }
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] agent/status: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] agent/status: ${String(error?.message ?? error)}`)
     }
   })
 
@@ -149,7 +149,7 @@ export function apply(ctx, config = {}) {
         problems: shared.problems.slice(-3),
       })
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] agent/error: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] agent/error: ${String(error?.message ?? error)}`)
     }
   })
 
@@ -172,7 +172,7 @@ export function apply(ctx, config = {}) {
         if (shared.problems.length > 20) shared.problems.length = 20
       }
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] tools/result: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] tools/result: ${String(error?.message ?? error)}`)
     }
   })
 
@@ -228,7 +228,7 @@ export function apply(ctx, config = {}) {
         }
       }
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] tools/pre-execute: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] tools/pre-execute: ${String(error?.message ?? error)}`)
     }
     return next()
   })
@@ -244,12 +244,12 @@ export function apply(ctx, config = {}) {
           id: alert.id, // 直接用 UUID（绝对唯一），去掉 `||` 短路，避免回退到可碰撞的固定 id
           role: 'user',
           content: [{ type: 'text', text: `[${alert.severity}] MCP 客户端 实时提醒：${alert.message}` }],
-          source: { kind: 'user', plugin: 'dsh-mcp-bridge', clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+          source: { kind: 'user', plugin: 'dsh-as-mcp-server', clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
         }
         return { ...decision, messages: [...decision.messages, msg] }
       }
     } catch (error) {
-      console.error(`[dsh-mcp-bridge] agent/pre-step: ${String(error?.message ?? error)}`)
+      console.error(`[dsh-as-mcp-server] agent/pre-step: ${String(error?.message ?? error)}`)
       if (shared.alerts.length) shared.alerts.unshift(shared.alerts.pop())
     }
     return decision
@@ -265,13 +265,13 @@ export function apply(ctx, config = {}) {
           return
         }
         bridge = b
-        console.log(`[dsh-mcp-bridge] MCP server 就绪: ${b.url}（在此接入 MCP 客户端）`)
+        console.log(`[dsh-as-mcp-server] MCP server 就绪: ${b.url}（在此接入 MCP 客户端）`)
         notify('notifications/dsh/status', {
           status: shared.status, current: '桥已就绪', turn: shared.turn, bridgeUrl: b.url,
         })
       })
       .catch((error) => {
-        console.error(`[dsh-mcp-bridge] MCP server 启动失败: ${String(error?.message ?? error)}`)
+        console.error(`[dsh-as-mcp-server] MCP server 启动失败: ${String(error?.message ?? error)}`)
       })
     return () => {
       closed = true
@@ -285,7 +285,7 @@ export function apply(ctx, config = {}) {
   const sp = ctx.get('systemPrompt')
   if (sp !== undefined) {
     ctx.effect(() => sp.section({
-      name: 'tool:dsh-mcp-bridge',
+      name: 'tool:dsh-as-mcp-server',
       order: 103,
       text: 'MCP 客户端正实时旁观你（MCP 桥）：思考/工具调用/文件改动都会流式可见。'
         + '若 write/edit/git 被拒绝，说明 MCP 客户端正持地板锁操作工作区——等锁释放或请对方释放后再写。'
