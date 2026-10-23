@@ -14,6 +14,11 @@
     "cordis"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qian-dsh/dsh-mcp-bridge.git"
+  },
+  "homepage": "https://github.com/qian-dsh/dsh-mcp-bridge#readme",
   "engines": {
     "node": ">=22.19"
   },
