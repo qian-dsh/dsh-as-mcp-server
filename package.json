@@ -1,5 +1,5 @@
 {
-  "name": "dsh-mcp-bridge",
+  "name": "@qian-dsh/dsh-mcp-bridge",
   "version": "0.1.1",
   "description": "Exposes DSH as an MCP server over Streamable HTTP: streaming thinking/tool/file notifications, shared intent, a floor lock that physically denies DSH writes while held, mid-turn alert injection, and review delegation.",
   "type": "module",
