@@ -3,7 +3,7 @@
 # config 是初始值；之后可用 ~/.dsh-mcp-bridge/config.json 覆盖，重启不丢。
 - insert:
     - id: dsh-mcp-bridge
-      name: '@qian-dsh/dsh-mcp-bridge'
+      name: 'dsh-as-mcp-server'
       config:
         port: 51630         # MCP server 端口（避开 50551/51608/51615/62428）
         host: '127.0.0.1'   # 只监听本机

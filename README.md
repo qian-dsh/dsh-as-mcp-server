@@ -26,7 +26,7 @@ Two agents on one workspace normally means two agents overwriting each other. Th
 ## Install
 
 ```sh
-dsh plugin --profile web add @qian-dsh/dsh-mcp-bridge
+dsh plugin --profile web add dsh-as-mcp-server
 ```
 
 Then **add the bridge to your MCP client** — any client speaking Streamable HTTP works (WorkBuddy, Claude Desktop with an MCP-HTTP adapter, Cursor, Cline, …):
