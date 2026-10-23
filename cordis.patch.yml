@@ -1,0 +1,14 @@
+# dsh bundle layer: 把自己挂进配置树。
+# name 必须是本包的包名（package.json 里的 "name"），加载器据此解析模块。
+# config 是初始值；之后可用 ~/.dsh-mcp-bridge/config.json 覆盖，重启不丢。
+- insert:
+    - id: dsh-mcp-bridge
+      name: 'dsh-mcp-bridge'
+      config:
+        port: 51630         # MCP server 端口（避开 50551/51608/51615/62428）
+        host: '127.0.0.1'   # 只监听本机
+        token: ''           # 可选 Bearer token；空 = 本机免鉴权
+        lockTtlMs: 300000   # 地板锁默认有效期（毫秒），防死锁兜底
+        denyTools: ['write', 'edit', 'git']  # 持锁期间拒绝 DSH 的写入工具
+        alertInjection: true  # 提醒是否插进当前轮（false 则只进收件箱）
+        inboxRoot: ''       # 审查/提醒收件箱；空 = ~/.workbuddy-bridge/inbox（与 workbuddy-bridge 共用）

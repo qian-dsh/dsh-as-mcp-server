@@ -1,0 +1,50 @@
+{
+  "name": "dsh-mcp-bridge",
+  "version": "0.1.1",
+  "description": "Exposes DSH as an MCP server over Streamable HTTP: streaming thinking/tool/file notifications, shared intent, a floor lock that physically denies DSH writes while held, mid-turn alert injection, and review delegation.",
+  "type": "module",
+  "main": "./dsh/index.js",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "mcp",
+    "mcp-server",
+    "deepseek-harness",
+    "streamable-http",
+    "cordis"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "files": [
+    "dsh",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dsh/index.js",
+    "./dsh": "./dsh/index.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
