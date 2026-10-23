@@ -23,6 +23,9 @@ import { createServer } from 'node:http'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
 import {
   ListToolsRequestSchema,
@@ -30,6 +33,9 @@ import {
   McpError,
   ErrorCode,
 } from '@modelcontextprotocol/sdk/types.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const PKG_VERSION = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf8')).version
 
 export function buildBridgeTools(shared, hooks, opts = {}) {
   const lockTtlMs = Number.isFinite(opts.lockTtlMs) ? opts.lockTtlMs : 300000
@@ -186,7 +192,7 @@ export async function createMcpBridge(handlers, opts = {}, onReady) {
 
   const buildServer = () => {
     const server = new Server(
-      { name: 'dsh-mcp-bridge', version: '0.1.1' },
+      { name: 'dsh-as-mcp-server', version: PKG_VERSION },
       { capabilities: { tools: {} } },
     )
     server.setRequestHandler(ListToolsRequestSchema, async () => ({

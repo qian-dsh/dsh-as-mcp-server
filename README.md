@@ -1,4 +1,4 @@
-# dsh-mcp-bridge
+# dsh-as-mcp-server
 
 **Exposes DSH as an MCP server**, so any MCP client can watch what the agent is doing and steer it mid-flight.
 

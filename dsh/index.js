@@ -244,7 +244,7 @@ export function apply(ctx, config = {}) {
           id: alert.id, // 直接用 UUID（绝对唯一），去掉 `||` 短路，避免回退到可碰撞的固定 id
           role: 'user',
           content: [{ type: 'text', text: `[${alert.severity}] MCP 客户端 实时提醒：${alert.message}` }],
-          source: { kind: 'user', plugin: 'dsh-mcp-bridge', clientTimeZone: 'Asia/Shanghai' },
+          source: { kind: 'user', plugin: 'dsh-mcp-bridge', clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
         }
         return { ...decision, messages: [...decision.messages, msg] }
       }
